@@ -1,20 +1,21 @@
 import re
 import requests
 import logging
+from urllib.parse import quote, unquote
 from bs4 import BeautifulSoup
 
 
 class GoogleSearch:
 
-    def _get_site(self, q: str, start: int = 0) -> list:
-        '''
+    def _get_urls(self, q: str, start: int = 0) -> list:
+        """
             Метод возвращает списков url с гугл запроса
 
             Parameters:
             q -- Гугл запрос
             start -- Номер начального сайта
 
-        '''
+        """
 
         base_url = 'https://www.google.com/search?q={}&start={}'.format(
             q, start)
@@ -23,6 +24,7 @@ class GoogleSearch:
             responce = requests.get(base_url)
         except OSError:
             logger.exception(f'OSError: {base_url}')
+            return []
 
         soup = BeautifulSoup(responce.text, 'lxml')
 
@@ -42,5 +44,11 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s %(name)s %(levelname)s:%(message)s')
     logger = logging.getLogger(__name__)
-    google = GoogleSearch()._get_site(q='Кабель')
-    print(google)
+
+    google = GoogleSearch()._get_urls(q='Кабель')
+    if not google:
+        logger.info('Где ссылки с гугла?')
+        quit()
+    resp = requests.get(google[0])
+    for url in google:
+        print(unquote(url))
