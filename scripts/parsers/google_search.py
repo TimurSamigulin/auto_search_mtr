@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 
 class GoogleSearch:
 
-    def _get_urls(self, q: str, start: int = 0) -> list:
+    def get_urls(self, q: str, start: int = 0) -> list:
         """
             Метод возвращает списков url с гугл запроса
 
@@ -36,7 +36,7 @@ class GoogleSearch:
                     '/url') and 'google.com' not in link.get('href'):
                 link = link.get('href')[7:]
                 link = link[:re.search('&sa=', link).span()[0]]
-                with_quest.append(link)
+                with_quest.append(unquote(link))
 
         return with_quest
 
@@ -45,10 +45,5 @@ if __name__ == '__main__':
                         format='%(asctime)s %(name)s %(levelname)s:%(message)s')
     logger = logging.getLogger(__name__)
 
-    google = GoogleSearch()._get_urls(q='Кабель')
-    if not google:
-        logger.info('Где ссылки с гугла?')
-        quit()
-    resp = requests.get(google[0])
-    for url in google:
-        print(unquote(url))
+    google = GoogleSearch().get_urls(q='Кабель')
+    print(google)
