@@ -1,6 +1,6 @@
-from bs4 import BeautifulSoup
 import re
 import requests
+from bs4 import BeautifulSoup
 from requests.exceptions import HTTPError, ConnectionError, Timeout, RequestException
 
 

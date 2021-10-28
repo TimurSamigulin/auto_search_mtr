@@ -3,9 +3,10 @@ import requests
 import logging
 from urllib.parse import quote, unquote
 from bs4 import BeautifulSoup
+from scripts.parsers.search import Search
 
 
-class GoogleSearch:
+class GoogleSearch(Search):
 
     def get_urls(self, q: str, start: int = 0) -> list:
         """
@@ -40,6 +41,7 @@ class GoogleSearch:
 
         return with_quest
 
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s %(name)s %(levelname)s:%(message)s')
@@ -47,3 +49,8 @@ if __name__ == '__main__':
 
     google = GoogleSearch().get_urls(q='Кабель')
     print(google)
+
+if __name__ == '__google_search__':
+    logging.basicConfig(level=logging.DEBUG,
+                        format='%(asctime)s %(name)s %(levelname)s:%(message)s')
+    logger = logging.getLogger(__name__)
