@@ -1,8 +1,8 @@
-from abc import abstractmethod
+from abc import ABC, abstractmethod, ABCMeta
 
 
-class Search():
+class Search(ABC):
 
     @abstractmethod
-    def get_url(self):
+    def get_urls(self, q: str, start: int = 0):
         pass

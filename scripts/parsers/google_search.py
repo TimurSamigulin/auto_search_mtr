@@ -3,6 +3,7 @@ import requests
 import logging
 from urllib.parse import quote, unquote
 from bs4 import BeautifulSoup
+
 from scripts.parsers.search import Search
 
 
@@ -14,9 +15,10 @@ class GoogleSearch(Search):
 
             Parameters:
             q -- Гугл запрос
-            start -- Номер начального сайта
+            start -- Номер начальной страница
 
         """
+        start *= 10
 
         base_url = 'https://www.google.com/search?q={}&start={}'.format(
             q, start)
