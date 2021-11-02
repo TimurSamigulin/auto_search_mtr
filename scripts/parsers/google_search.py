@@ -1,7 +1,7 @@
 import re
 import requests
 import logging
-from urllib.parse import quote, unquote
+from urllib.parse import unquote
 from bs4 import BeautifulSoup
 
 from scripts.parsers.search import Search

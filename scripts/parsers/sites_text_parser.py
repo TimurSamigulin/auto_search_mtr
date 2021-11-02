@@ -1,5 +1,6 @@
 import re
 import requests
+from newspaper import Article
 from bs4 import BeautifulSoup
 from requests.exceptions import HTTPError, ConnectionError, Timeout, RequestException
 
@@ -25,6 +26,12 @@ class SitesText:
                         normalized_text = SitesText.normalize_page_text(main_tag.getText())
                         content = f'Page link: {link}\n\n{normalized_text}'
                         return content
+
+    def get_article_text(self, url):
+        article = Article(url)
+        article.download()
+        article.parse()
+        return article.text
 
     @staticmethod
     def normalize_page_text(text):
