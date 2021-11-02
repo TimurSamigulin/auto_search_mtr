@@ -11,6 +11,11 @@ class SitesText:
     """
 
     def get_page_text(self, link):
+        """
+        Парсим текст с сайта
+        :param link:
+        :return: весь текст с сайта
+        """
         try:
             simple_headers = {
                 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0'}
@@ -27,14 +32,31 @@ class SitesText:
                         content = f'Page link: {link}\n\n{normalized_text}'
                         return content
 
-    def get_article_text(self, url):
+    def get_article_text(self, url) -> dict:
+        '''
+        С помощью библиотеки Article, достаем основной контент с новостных сайтов
+        :param url: ссылка на текст
+        :return: словарь с инфой
+        '''
         article = Article(url)
         article.download()
         article.parse()
-        return article.text
+        information = {}
+        information['date'] = article.publish_date
+        information['text'] = article.text
+        information['top_image'] = article.top_image
+        article.nlp()
+        information['keywords'] = article.keywords
+        information['summary'] = article.summary
+        return information
 
     @staticmethod
     def normalize_page_text(text):
+        """
+        Убираем лишние пробелы
+        :param text:
+        :return:
+        """
         text = re.sub(r'\n\s*\n', '\n\n', text)
         text = re.sub(r' +', ' ', text)
         text = re.sub(r'\n ', '\n', text)
