@@ -8,7 +8,10 @@ from scripts.parsers.search import Search
 class YaSearch(Search):
 
     def __init__(self):
-        self._driver = webdriver.Firefox()
+        self._firefox_options = webdriver.FirefoxOptions()
+        self._firefox_options.add_argument('-headless')
+
+        self._driver = webdriver.Firefox(options=self._firefox_options)
 
     def get_urls(self, q: str, start: int = 0):
         """
@@ -34,6 +37,9 @@ class YaSearch(Search):
             with_quest.append(link)
 
         return with_quest
+
+    def __del__(self):
+        self._driver.quit()
 
 
 
