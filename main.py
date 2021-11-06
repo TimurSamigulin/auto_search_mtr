@@ -6,6 +6,8 @@ import pandas as pd
 from pathlib import Path
 
 from scripts.parsers.sites_text_parser import SitesText
+from scripts.parsers.parse_urls import SiteSearch
+
 
 
 def get_article_text(urls: list):
@@ -21,7 +23,12 @@ def get_article_text(urls: list):
 
 
 if __name__ == '__main__':
-    sites = SitesText()
+    columns = ['cat1', 'cat2', 'cat3', 'query']
+    query_path = Path('data', 'model', 'query.csv')
+    data_path = Path('data')
+
+    # site_search = SiteSearch()
+    # site_search.get_all_urls(columns, query_path, data_path)
 
 
 

@@ -52,3 +52,8 @@ if __name__ == '__main__':
     print(len(urls))
     for url in urls:
         print(url)
+
+if __name__ == '__ya_search__':
+    logging.basicConfig(level=logging.DEBUG,
+                        format='%(asctime)s %(name)s %(levelname)s:%(message)s')
+    logger = logging.getLogger(__name__)

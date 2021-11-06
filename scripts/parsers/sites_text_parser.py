@@ -12,7 +12,7 @@ class SitesText:
 
     def get_page_text(self, link):
         """
-        Парсим текст с сайта
+        Парсим весь текст с сайта
         :param link:
         :return: весь текст с сайта
         """

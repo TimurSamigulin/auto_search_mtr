@@ -6,6 +6,9 @@ from bs4 import BeautifulSoup
 
 from scripts.parsers.search import Search
 
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s %(name)s %(levelname)s:%(message)s')
+logger = logging.getLogger(__name__)
 
 class GoogleSearch(Search):
 
@@ -45,7 +48,7 @@ class GoogleSearch(Search):
 
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.DEBUG,
+    logging.basicConfig(level=logging.INFO,
                         format='%(asctime)s %(name)s %(levelname)s:%(message)s')
     logger = logging.getLogger(__name__)
 
@@ -53,6 +56,6 @@ if __name__ == '__main__':
     print(google)
 
 if __name__ == '__google_search__':
-    logging.basicConfig(level=logging.DEBUG,
+    logging.basicConfig(level=logging.INFO,
                         format='%(asctime)s %(name)s %(levelname)s:%(message)s')
     logger = logging.getLogger(__name__)
