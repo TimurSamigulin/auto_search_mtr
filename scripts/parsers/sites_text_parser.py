@@ -1,6 +1,6 @@
 import re
 import requests
-from newspaper import Article
+from newspaper import Article, ArticleException
 from bs4 import BeautifulSoup
 from requests.exceptions import HTTPError, ConnectionError, Timeout, RequestException
 
@@ -39,8 +39,19 @@ class SitesText:
         :return: словарь с инфой
         '''
         article = Article(url)
-        article.download()
-        article.parse()
+        try:
+            article.download()
+            article.parse()
+        except ArticleException as e:
+            print(f'Не загрузилась ссылка {e}')
+            return {
+                'date': '',
+                'text': '',
+                'top_image': '',
+                'keywords': '',
+                'summary': ''
+            }
+
         information = {}
         information['date'] = article.publish_date
         information['text'] = article.text

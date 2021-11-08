@@ -116,7 +116,7 @@ class SiteSearch():
     def check_shop_url(self, urls: list) -> list:
         count_proc = 5
         pool = Pool(processes=count_proc)
-        all_shops = pool.map(shop_search.is_shop, urls)
+        all_shops = pool.map(self.is_shop, urls)
         return all_shops
 
 
@@ -124,14 +124,3 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO,
                         format='%(asctime)s %(name)s %(levelname)s:%(message)s')
     logger = logging.getLogger(__name__)
-    shop_search = SiteSearch()
-
-    df = pd.read_csv('../../data/model/all_urls.csv', header=0)
-    df.drop(df.iloc[:, :1], axis=1, inplace=True)
-    df = df[df['query'] == 'Классификация кабелей']
-    urls = df.url.values
-
-    all_shops = shop_search.check_shop_url(urls)
-
-    df['is_shop'] = pd.Series(all_shops, index=df.index)
-    df.to_csv('../../data/model/texts/urls.csv', index=None)
