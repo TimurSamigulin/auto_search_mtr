@@ -9,6 +9,7 @@ from selenium import webdriver
 
 from scripts.parsers.google_search import GoogleSearch
 from scripts.parsers.ya_search import YaSearch
+from scripts.util.driver import Driver
 
 
 class SiteSearch():
