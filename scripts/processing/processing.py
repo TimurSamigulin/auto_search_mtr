@@ -1,5 +1,6 @@
 import pandas as pd
 from scripts.processing.organization_processing import OrgProcessing
+from scripts.processing.gost_processing import KabelInfo
 
 
 def get_en_org_from_text(input_file):
@@ -62,3 +63,22 @@ def get_ru_orgs_info(input_file, output_file):
     result = pd.DataFrame(ru_org_info)
     result.to_csv(output_file)
     return ru_org_info
+
+def get_gost_info(output_file):
+    gost_proc = KabelInfo()
+    gost = gost_proc.get_gost_info()
+    with open(output_file, 'w', encoding='utf-8') as fw:
+        fw.write(gost)
+
+    return gost
+
+def get_kabel_class(output_file):
+    gost_proc = KabelInfo()
+    kabel_class = gost_proc.get_kabel_class('Кабели силовые')
+
+    with open(output_file, 'w', encoding='utf-8') as fw:
+        [fw.write(kabel) for kabel in kabel_class]
+
+    return kabel_class
+
+
