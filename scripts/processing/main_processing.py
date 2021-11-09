@@ -21,3 +21,8 @@ def get_gost():
 def get_kabel_class():
     output_file = '../../data/model/uritexts/Классификация кабелей/kabel_class.txt'
     processing.get_kabel_class(output_file)
+
+
+if __name__ == '__main__':
+    get_gost()
+    get_kabel_class()

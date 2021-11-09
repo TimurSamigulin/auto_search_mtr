@@ -77,7 +77,7 @@ def get_kabel_class(output_file):
     kabel_class = gost_proc.get_kabel_class('Кабели силовые')
 
     with open(output_file, 'w', encoding='utf-8') as fw:
-        [fw.write(kabel) for kabel in kabel_class]
+        fw.write(','.join(kabel_class))
 
     return kabel_class
 
