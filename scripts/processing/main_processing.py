@@ -1,3 +1,4 @@
+from pathlib import Path
 from scripts.processing import processing
 
 
@@ -22,6 +23,9 @@ def get_kabel_class():
     output_file = '../../data/model/uritexts/Классификация кабелей/kabel_class.txt'
     processing.get_kabel_class(output_file)
 
+def get_share_prices():
+    output_dir = Path('..', '..', 'data', 'model', 'uritexts', 'Прогноз цены на силовой кабель')
+    processing.get_share_prices(output_dir)
 
 if __name__ == '__main__':
-    get_ru_org_info()
+    get_share_prices()
