@@ -37,11 +37,13 @@ class KabelInfo():
             return {}
 
         responce.encoding = 'utf-8'
-
-        soup = BeautifulSoup(responce.text, 'lxml')
-        li = soup.find('li', id='t3')
-        kabel_class = li.findAll('b')
-        kabel_class = [kabel.text[8:] for kabel in kabel_class]
+        try:
+            soup = BeautifulSoup(responce.text, 'lxml')
+            li = soup.find('li', id='t3')
+            kabel_class = li.findAll('b')
+            kabel_class = [kabel.text[8:] for kabel in kabel_class]
+        except Exception:
+            return []
 
         return kabel_class
 
