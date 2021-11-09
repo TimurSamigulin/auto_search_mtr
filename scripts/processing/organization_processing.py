@@ -3,6 +3,8 @@ import logging
 import time
 import pandas as pd
 import numpy as np
+from bs4 import BeautifulSoup
+import requests
 from selenium import webdriver
 from natasha import (Doc,
                      Segmenter,
@@ -121,7 +123,27 @@ class OrgProcessing():
         driver.quit()
         return org_info
 
+    def get_en_org_info(self, org_name):
+        base_url = 'https://www.google.com/search?q={}'.format(
+            org_name)
+
+        try:
+            responce = requests.get(base_url)
+        except OSError:
+            logger.exception(f'OSError: {base_url}')
+            return {}
+
+        soup = BeautifulSoup(responce.text, 'lxml')
+
+
+        address = soup.find_all('span', 'BNeawe tAd8D AP7Wnd')
+        if address:
+            return {'name': org_name, 'address': address[0].string}
+        else:
+            return {}
+
 if __name__ == '__main__':
     org_processing = OrgProcessing()
-    print(org_processing.get_ru_org_info('Спецкабель'))
+    address = org_processing.get_en_org_info('SKET Verseilmaschinenbau GmbH')
+    print(address)
 
