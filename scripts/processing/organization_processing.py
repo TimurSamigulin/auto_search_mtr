@@ -93,7 +93,7 @@ class OrgProcessing():
 
             if org_activity[index].text.find('кабел') != -1:
                 org_info['org_activity'] = org_activity[index].text
-                org_info['name'] = company.find_element_by_class_name('finded-text').text
+                org_info['name'] = org_name
                 org_info['address'] = company.find_element_by_class_name('company-item__text').text
 
                 try:

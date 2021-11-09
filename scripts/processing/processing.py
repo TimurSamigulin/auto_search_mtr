@@ -1,3 +1,4 @@
+import time
 import pandas as pd
 from scripts.processing.organization_processing import OrgProcessing
 from scripts.processing.gost_processing import KabelInfo
@@ -26,7 +27,9 @@ def get_en_orgs_info(input_file, output_file):
     org_proc = OrgProcessing()
     en_orgs = get_en_org_from_text(input_file)
     en_org_info = []
-    for org in en_orgs:
+    for i, org in enumerate(en_orgs):
+        time.sleep(1)
+        print(f'en {i}/{len(en_orgs)}')
         org_info = org_proc.get_en_org_info(org)
         if org_info:
             en_org_info.append(org_info)
@@ -56,9 +59,11 @@ def get_ru_orgs_info(input_file, output_file):
     org_proc = OrgProcessing()
     ru_orgs = get_ru_org_from_text(input_file)
     ru_org_info = []
-    for org in ru_orgs:
+    for i, org in enumerate(ru_orgs):
+        print(f'ru {i}/{len(ru_orgs)}')
         org_info = org_proc.get_ru_org_info(org)
-        ru_org_info.append(org_info)
+        if org_info:
+            ru_org_info.append(org_info)
 
     result = pd.DataFrame(ru_org_info)
     result.to_csv(output_file)

@@ -24,5 +24,4 @@ def get_kabel_class():
 
 
 if __name__ == '__main__':
-    get_gost()
-    get_kabel_class()
+    get_ru_org_info()
