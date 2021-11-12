@@ -1,4 +1,5 @@
 import logging
+import time
 import pandas as pd
 from pathlib import Path
 from scripts.util.driver import Driver
@@ -20,6 +21,7 @@ class PricesInfo():
         driver = Driver(headless=False).get_driver()
 
         driver.get(base_url)
+        time.sleep(3)
 
         input = driver.find_elements_by_class_name('combobutton')
         input[-1].click()
@@ -46,6 +48,20 @@ class PricesInfo():
         price_info.close = price_info.close.astype('float64')
         result_df = price_info.groupby(['year', 'month']).mean()
         return result_df
+
+    def base_price(self, price, metal_name: str):
+        """
+        Считаем базовую цену кабеля на данный момент
+        :param price: текущая цена на материал
+        :param share: процентная доля материала в стоймости кабеля
+        :return:
+        """
+        metal_price = {'copper': 80, 'aluminum': 60, 'mix': 65}
+        if metal_price.get(metal_name):
+            return int(price/metal_price.get(metal_name)*100)
+        else:
+            logger.warning(f'Не указана доля стоймости метала в себестоймости  кабеля')
+            return None
 
 
 

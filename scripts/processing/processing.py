@@ -106,6 +106,15 @@ def get_share_prices(output_dir):
         mean_price.to_csv(output_dir / f'{share_price}_year_mean.csv')
         mean_price = price_info.mean_price_month(prices_info)
         mean_price.to_csv(output_dir / f'{share_price}_month_mean.csv')
+        base_price = price_info.base_price(prices_info.close.values[-1], share_price)
+        if base_price:
+            with open(output_dir / f'{share_price}_base_price.txt', 'w') as fw:
+                fw.write(str(base_price))
+
+
+
+
+
 
 
 
