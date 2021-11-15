@@ -6,6 +6,10 @@ from scripts.parsers.search import Search
 
 
 class YaSearch(Search):
+    """
+    Класс для парсинга Яндекс запросов. пришлось использовать Selenium и имитировать работу браузера, так как
+    Яндекс активно борится с парсигом своих сервисов.
+    """
 
     def __init__(self):
         self._firefox_options = webdriver.FirefoxOptions()
@@ -17,8 +21,8 @@ class YaSearch(Search):
         """
         Метод возвращает список url из Яндекс запроса
         :param q: Запрос
-
-        :return:
+               start: номер начальной страницы, начинается с 0
+        :return: Список собранных url
         """
         base_url = 'https://yandex.ru/search/?text={}&p={}'.format(q, start)
 

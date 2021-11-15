@@ -1,15 +1,19 @@
 import logging
 import time
+
 import pandas as pd
-from pathlib import Path
+
 from scripts.util.driver import Driver
 
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s %(name)s %(levelname)s:%(message)s')
 logger = logging.getLogger(__name__)
 
-class PricesInfo():
 
+class PricesInfo():
+    """
+    Класс для извлечение котировок и курс валют
+    """
     def parse_share_price(self, product):
         """
         Парсит котировки переданного метала или чего-либо еще
@@ -33,18 +37,29 @@ class PricesInfo():
         prices_info = []
         for tr in table[1:-1]:
             td = tr.find_elements_by_tag_name('td')
-            prices_info.append({'close': td[0].text, 'year': td[1].text.split('.')[-1], 'month': td[1].text.split('.')[1]})
+            prices_info.append(
+                {'close': td[0].text, 'year': td[1].text.split('.')[-1], 'month': td[1].text.split('.')[1]})
 
         driver.quit()
 
         return pd.DataFrame(prices_info)
 
     def mean_price(self, price_info: pd.DataFrame) -> pd.DataFrame:
+        """
+        Вычисляем средние котировки по годам
+        :param price_info: датафрейм с инфой по котировкам, со столбцом year
+        :return: DataFrame
+        """
         price_info.close = price_info.close.astype('float64')
         result_df = price_info.groupby(['year']).mean()
         return result_df
 
     def mean_price_month(self, price_info: pd.DataFrame) -> pd.DataFrame:
+        """
+        Вычисляем средние котировки по месецам
+        :param price_info: датафрейм с инфой по котировкам, со столбцом year и month
+        :return: DataFrame
+        """
         price_info.close = price_info.close.astype('float64')
         result_df = price_info.groupby(['year', 'month']).mean()
         return result_df
@@ -58,11 +73,10 @@ class PricesInfo():
         """
         metal_price = {'copper': 80, 'aluminum': 60, 'mix': 65}
         if metal_price.get(metal_name):
-            return int(price/metal_price.get(metal_name)*100)
+            return int(price / metal_price.get(metal_name) * 100)
         else:
             logger.warning(f'Не указана доля стоймости метала в себестоймости  кабеля')
             return None
-
 
 
 if __name__ == '__main__':

@@ -8,15 +8,22 @@ logger = logging.getLogger(__name__)
 
 
 class KabelInfo():
+    """
+    Класс парсинга основной информации о кабеле, определения и классификации
+    """
 
     def get_gost_info(self):
+        """
+        Парсим определение кабеля из госта
+        :return:
+        """
         base_url = 'https://docs.cntd.ru/document/1200011353'
 
         try:
             responce = requests.get(base_url)
         except OSError:
             logger.exception(f'OSError: {base_url}')
-            return {}
+            return ''
 
         try:
             soup = BeautifulSoup(responce.text, 'lxml')
@@ -27,7 +34,12 @@ class KabelInfo():
 
         return named
 
-    def get_kabel_class(self, q):
+    def get_kabel_class(self, q='Кабели силовые'):
+        """
+        Парсим окпд2
+        :param q: запрос классфикацию чего нам нужно спарсить
+        :return:
+        """
         base_url = f'https://www.stroyinf.ru/cgi-bin/mck/okp.cgi?f3={q}'
 
         try:

@@ -4,6 +4,10 @@ from scripts.processing.organization_processing import OrgProcessing
 from scripts.processing.gost_processing import KabelInfo
 from scripts.processing.prices_processing import PricesInfo
 
+"""
+    Файл с функциями вызовами всех функций которые отвечают за извлечение информации
+"""
+
 
 def get_en_org_from_text(input_file):
     """
@@ -82,7 +86,7 @@ def get_gost_info(output_file):
 
 def get_kabel_class(output_file):
     gost_proc = KabelInfo()
-    kabel_class = gost_proc.get_kabel_class('Кабели силовые')
+    kabel_class = gost_proc.get_kabel_class(q='Кабели силовые')
 
     with open(output_file, 'w', encoding='utf-8') as fw:
         fw.write(','.join(kabel_class))
@@ -110,11 +114,3 @@ def get_share_prices(output_dir):
         if base_price:
             with open(output_dir / f'{share_price}_base_price.txt', 'w') as fw:
                 fw.write(str(base_price))
-
-
-
-
-
-
-
-

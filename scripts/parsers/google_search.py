@@ -18,7 +18,7 @@ class GoogleSearch(Search):
 
             Parameters:
             q -- Гугл запрос
-            start -- Номер начальной страница
+            start -- Номер начальной страница начиная с 0
 
         """
         start *= 10

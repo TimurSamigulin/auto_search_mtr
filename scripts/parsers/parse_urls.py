@@ -17,8 +17,8 @@ class SiteSearch():
     def write_urls_in_file(self, urls: list, file_path: Path):
         """
         Сохранить urls в файл
-        :param urls:
-        :param file_path:
+        :param urls: список ссылок
+        :param file_path: путь до файла куда сохранить список ссылок
         :return:
         """
         with open(file_path, 'w') as f:
@@ -27,9 +27,9 @@ class SiteSearch():
 
     def get_urls(self, q: str) -> list:
         """
-        Получить urls по переданному поисковому запросу
-        :param q:
-        :return:
+        Получить urls по переданному поисковому запросу используя Гугл и Яндекс поисковики
+        :param q: поисковой запрос
+        :return: список уникальных собранных ссылок
         """
         google = GoogleSearch()
         yandex = YaSearch()
@@ -42,13 +42,16 @@ class SiteSearch():
         del google
         return list(set(urls))
 
-    def is_shop(self, url: dict) -> bool:
+    def is_shop(self, url) -> bool:
         """
-        Проверяем магазин или нет этот сайт
-        :param url:
-        :return:
+        Проверяем магазин или нет этот сайт. Используется selenium, чтобы максимально имитировать работу браузера и
+        получить доступ ко всем сайтам. Так некоторые из ссылок используют переадресацию и обычным get запросом не полу-
+        чить информацию со страницы. А так же некоторые сайты борятся с парсингом и получить другими способами информацию
+        с них затруднительно.
+        :param url: ссылка на сайт
+        :return: True если это интернет магазин
         """
-        print(url)
+        # print(url)
         firefox_options = webdriver.FirefoxOptions()
         firefox_options.add_argument('-headless')
 
@@ -74,6 +77,12 @@ class SiteSearch():
         return False
 
     def all_urls(self, query: list, data_path: Path):
+        """
+        Спарсить ссылки по списку переданных запросов
+        :param query: список запросов для которых нужно получить источники
+        :param data_path: путь до папки data куда будут сохраться источники в файлы под название query.txt
+        :return: список словарей формата [{'url': url, 'query': query}, ..., {}]
+        """
         urls_list = []
 
         for index, q in enumerate(query):
@@ -93,20 +102,24 @@ class SiteSearch():
 
         return urls_list
 
-    def get_model_query(self, query_path, columns, header=None, index_col=None, sep=';'):
+    def get_model_query(self, query_path, columns, query_column='query', header=None, index_col=None, sep=';'):
+        """Получить список запросов из файла где сохранены запросы"""
         df = pd.read_csv(query_path, header=header, index_col=index_col, sep=sep)
         df.columns = columns
-        query = df['query'].unique()
+        query = df[query_column].unique()
         return query
 
     def get_all_urls(self, columns: list, query_path: Path, data_path: Path):
+        """
+        Получить список всех ссылок по переданным запросам и сохранение их в файлы
+        :param columns: список названий колонок для query DataFrame,
+        :param query_path: путь до csv файла где сохранен query DataFrame
+        :param data_path: путь до папки Data
+        :return: список ссылок
+        """
         query = self.get_model_query(query_path, columns)
 
         urls_list = self.all_urls(query, data_path)
-        # all_shop = self.check_shop_url(urls_list)
-        # all_urls = []
-        # for index, urls in enumerate(urls_list):
-        #     all_urls.append({'url': urls['url'], 'query': urls['query'], 'is_shop': all_shop[index]})
 
         df_url = pd.DataFrame(urls_list)
         query_path = Path('.', 'data', 'model', 'all_urls.csv')
@@ -114,8 +127,14 @@ class SiteSearch():
 
         return urls_list
 
-    def check_shop_url(self, urls: list) -> list:
-        count_proc = 5
+    def check_shop_url(self, urls: list, thread=5) -> list:
+        """
+        Проверяем список ссылок являются они магазином или нет
+        :param urls: список ссылок
+        thread: количество потоков
+        :return: список из Булевых значений где True - магазин, False - не магазин
+        """
+        count_proc = thread
         pool = Pool(processes=count_proc)
         all_shops = pool.map(self.is_shop, urls)
         return all_shops

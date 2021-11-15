@@ -1,6 +1,9 @@
 from pathlib import Path
 from scripts.processing import processing
 
+"""
+    Вызов функций из processing с передачей входных и выходных файлов
+"""
 
 def get_en_org_info():
     input_file = '../../data/model/uritexts/Крупнейшие мировые производители силового кабеля/texts.csv'

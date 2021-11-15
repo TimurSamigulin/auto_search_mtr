@@ -1,11 +1,10 @@
-import re
 import logging
+import re
 import time
-import pandas as pd
+
 import numpy as np
-from bs4 import BeautifulSoup
 import requests
-from selenium import webdriver
+from bs4 import BeautifulSoup
 from natasha import (Doc,
                      Segmenter,
                      NewsEmbedding,
@@ -28,8 +27,12 @@ logger = logging.getLogger(__name__)
 
 
 class OrgProcessing():
+    """
+    Класс для получения информации об Российских и иностранных организациях
+    """
 
     def get_ner_tag(self, texts) -> list:
+        """Функция для получения NER тэгов из текста, оставляем только NER рганизаций"""
         orgs = []
         for index, text in enumerate(texts):
             print(index)
@@ -48,6 +51,9 @@ class OrgProcessing():
         return orgs
 
     def normalize_rus_tag(self, orgs: list) -> list:
+        """Проводим нормализацию списка Российских организаций
+        orgs: список организаций
+        """
         orgs_norm = [org for org in orgs if not ('\n' in org['name']) or ('\t' in org['name'])]
         orgs_norm = [org for org in orgs_norm if len(org['name']) > 5]
         all_orgs_rus = []
@@ -61,6 +67,9 @@ class OrgProcessing():
         return all_orgs_rus
 
     def normalize_en_tag(self, orgs: list) -> list:
+        """проводим нормализацию списка иностранных организаций
+        orgs: список организаций
+        """
         orgs_norm = [org for org in orgs if not ('\n' in org['name']) or ('\t' in org['name'])]
         orgs_norm = [org for org in orgs_norm if len(org['name']) > 5]
         en_org = []
@@ -71,6 +80,11 @@ class OrgProcessing():
         return list(set(en_org))
 
     def get_ru_org_info(self, org_name):
+        """
+        Полуем информацию о Российской организации
+        :param org_name: название орги
+        :return: словарь с информацией об организации
+        """
         base_url = 'https://www.rusprofile.ru/search-advanced'
         driver = Driver(headless=True).get_driver()
         driver.get(base_url)
@@ -124,6 +138,11 @@ class OrgProcessing():
         return org_info
 
     def get_en_org_info(self, org_name):
+        """
+        Информация об иностранной организации
+        :param org_name: название организации
+        :return: словарь с инфомацией о организации
+        """
         base_url = 'https://www.google.com/search?q={}'.format(
             org_name)
 
