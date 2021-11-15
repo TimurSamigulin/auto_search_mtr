@@ -122,6 +122,9 @@ class SiteSearch():
 
 
 if __name__ == '__main__':
+    search = SiteSearch()
+    search.get_urls('Рынок кабельной продукции')
+
     logging.basicConfig(level=logging.INFO,
                         format='%(asctime)s %(name)s %(levelname)s:%(message)s')
     logger = logging.getLogger(__name__)
