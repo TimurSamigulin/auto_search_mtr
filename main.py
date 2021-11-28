@@ -7,20 +7,14 @@ from pathlib import Path
 from scripts.parsers.sites_text_parser import SitesText
 from scripts.parsers.parse_urls import SiteSearch
 
-
-
-def get_article_text(urls: list):
-    sites = SitesText()
-
-    file_path = Path('.', 'data', 'urls_text.txt')
-
-    with open(file_path, 'w', encoding='utf-8') as f:
-        for index, url in enumerate(urls):
-            f.write(f'{index} - {url}\n')
-            f.write(json.dumps(sites.get_article_text(url.strip()), ensure_ascii=False))
-            f.write('\n')
-
 def get_texts(input_path, output_path, drop_shop=True):
+    """
+    Парсит тексты статей
+    :param input_path:
+    :param output_path:
+    :param drop_shop:
+    :return:
+    """
     sites = SitesText()
     df = pd.read_csv(input_path, index_col=None, header=0)
     articles = []
@@ -73,22 +67,25 @@ def get_article_urls(all_urls_path, output_path):
 if __name__ == '__main__':
     sites = SitesText()
 
+    columns = ['cat1', 'cat2', 'cat3', 'query']
+    query_path = Path('data', 'model', 'query.csv')
+    data_path = Path('data')
+
+    site_search = SiteSearch()
+    site_search.get_all_urls(columns, query_path, data_path)
+
+    all_urls_path = Path('data', 'model', 'all_urls.csv')
+    output_path = Path('data', 'model', 'uritexts')
+    get_article_urls(all_urls_path, output_path)
+
     directories = Path('data', 'model', 'uritexts').glob('*')
     for directory in directories:
         input_path = directory / 'urls.csv'
         output_path = directory / 'texts.csv'
         get_texts(input_path, output_path)
 
-    # all_urls_path = Path('data', 'model', 'all_urls.csv')
-    # output_path = Path('data', 'model', 'uritexts')
-    # get_article_urls(all_urls_path, output_path)
 
-    # columns = ['cat1', 'cat2', 'cat3', 'query']
-    # query_path = Path('data', 'model', 'query.csv')
-    # data_path = Path('data')
 
-    # site_search = SiteSearch()
-    # site_search.get_all_urls(columns, query_path, data_path)
 
 
 

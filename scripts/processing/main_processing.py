@@ -13,7 +13,7 @@ def get_en_org_info():
 
 def get_ru_org_info():
     input_file = '../../data/model/uritexts/Крупнейшие мировые производители силового кабеля/texts.csv'
-    output_file = '../../data/model/uritexts/Крупнейшие мировые производители силового кабеля/ru_org_info.csv'
+    output_file = '../../data/model/uritexts/Крупнейшие мировые производители силового кабеля/ru_org_info1.csv'
     processing.get_ru_orgs_info(input_file, output_file)
 
 
@@ -31,4 +31,8 @@ def get_share_prices():
     processing.get_share_prices(output_dir)
 
 if __name__ == '__main__':
-    get_share_prices()
+    # get_en_org_info()
+    get_ru_org_info()
+    # get_gost()
+    # get_kabel_class()
+    # get_share_prices()

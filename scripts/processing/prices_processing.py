@@ -22,7 +22,7 @@ class PricesInfo():
         """
         base_url = f'https://www.profinance.ru/chart/?s={product}&hist=true'
 
-        driver = Driver(headless=False).get_driver()
+        driver = Driver(headless=True).get_driver()
 
         driver.get(base_url)
         time.sleep(3)

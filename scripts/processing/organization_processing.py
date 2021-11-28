@@ -35,9 +35,7 @@ class OrgProcessing():
         """Функция для получения NER тэгов из текста, оставляем только NER рганизаций"""
         orgs = []
         for index, text in enumerate(texts):
-            print(index)
             if text is np.nan:
-                print('skip')
                 continue
             doc = Doc(text)
             doc.segment(segmenter)
@@ -88,8 +86,8 @@ class OrgProcessing():
         base_url = 'https://www.rusprofile.ru/search-advanced'
         driver = Driver(headless=True).get_driver()
         driver.get(base_url)
-        org_input = driver.find_element_by_id('advanced-search-query')
         time.sleep(3)
+        org_input = driver.find_element_by_id('advanced-search-query')
         org_input.send_keys(org_name)
         time.sleep(3)
 
@@ -101,10 +99,13 @@ class OrgProcessing():
             return 0
 
         company_list = driver.find_elements_by_class_name('company-item')
+        if not company_list:
+            return 0
         for index, company in enumerate(company_list):
-            # Почему-то selenium при поиске xpath по строке ищет по всей странцие а не только по выбранной части
-            org_activity = company.find_elements_by_xpath("//dt[text()[contains(.,'Основной вид деятельности')]]/../dd")
 
+            org_activity = company.find_elements_by_xpath("//dt[text()[contains(.,'Основной вид деятельности')]]/../dd")
+            if org_activity:
+                return 0
             if org_activity[index].text.find('кабел') != -1:
                 org_info['org_activity'] = org_activity[index].text
                 org_info['name'] = org_name

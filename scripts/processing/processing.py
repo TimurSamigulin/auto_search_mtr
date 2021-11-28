@@ -34,7 +34,7 @@ def get_en_orgs_info(input_file, output_file):
     en_org_info = []
     for i, org in enumerate(en_orgs):
         time.sleep(1)
-        print(f'en {i}/{len(en_orgs)}')
+        print(f'en organization {i+1}/{len(en_orgs)}')
         org_info = org_proc.get_en_org_info(org)
         if org_info:
             en_org_info.append(org_info)
@@ -65,7 +65,7 @@ def get_ru_orgs_info(input_file, output_file):
     ru_orgs = get_ru_org_from_text(input_file)
     ru_org_info = []
     for i, org in enumerate(ru_orgs):
-        print(f'ru {i}/{len(ru_orgs)}')
+        print(f'ru organization {i+1}/{len(ru_orgs)}')
         org_info = org_proc.get_ru_org_info(org)
         if org_info:
             ru_org_info.append(org_info)
