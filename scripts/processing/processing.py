@@ -1,12 +1,15 @@
+"""
+    Файл с функциями вызовами всех функций которые отвечают за извлечение информации. Здесь описана логика вызова
+    методов классов отвечающих за извлечении информации. Является фасадом, для работы со всеми классами в одном месте
+"""
+
 import time
 import pandas as pd
 from scripts.processing.organization_processing import OrgProcessing
 from scripts.processing.gost_processing import KabelInfo
 from scripts.processing.prices_processing import PricesInfo
 
-"""
-    Файл с функциями вызовами всех функций которые отвечают за извлечение информации
-"""
+
 
 
 def get_en_org_from_text(input_file):

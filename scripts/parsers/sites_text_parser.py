@@ -1,3 +1,11 @@
+"""
+    Файл содержит класс SitesText Класс для получения текста из переданного url.
+    Функции:
+    get_article_text -> dict, извлекает основной текст из сайта с помощью библиотека newspaper
+    get_page_text -> str, извлекает весь текст с сайта
+    normalize_page_text -> str, удаляет лишние пробелы в тексте
+"""
+
 import re
 import requests
 from newspaper import Article, ArticleException

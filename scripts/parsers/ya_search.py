@@ -1,3 +1,9 @@
+"""
+    Файл с классом для парсинга результатов Яндекс поисковика
+    Функции:
+    get_urls -> list, возвращает список url из поисковой выдачи по переданному поисковому запросу
+"""
+
 import logging
 from selenium import webdriver
 from bs4 import BeautifulSoup

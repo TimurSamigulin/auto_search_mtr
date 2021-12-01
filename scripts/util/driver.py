@@ -1,3 +1,10 @@
+"""
+    Класс Driver создает объект веб драйвера Selenium.
+    Функции:
+    get_driver ->  webdriver, возвращет веб драйвер
+    close_driver -> None, закрывает драйвер
+"""
+
 from selenium import webdriver
 
 class Driver():

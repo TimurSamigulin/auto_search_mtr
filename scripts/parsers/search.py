@@ -1,3 +1,7 @@
+"""
+    Абстрактный класс для классов парсинга поисковиков
+"""
+
 from abc import ABC, abstractmethod
 
 
